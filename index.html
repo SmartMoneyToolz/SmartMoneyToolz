@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartMoneyToolz - Free Online Finance Calculators</title>
+    <meta name="description" content="Free online finance calculators for EMI, SIP, FD, and interest calculations. Plan smarter and invest better with our easy-to-use tools.">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0A1A3A;
+            --emerald: #00A676;
+            --white: #ffffff;
+            --light-gray: #f5f7fa;
+            --dark-gray: #4a5568;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --light-emerald: rgba(0, 166, 118, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            color: var(--navy);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--emerald), var(--navy));
+            border-radius: 2px;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--emerald), #008c63);
+            color: var(--white);
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 166, 118, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--navy), var(--emerald));
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 166, 118, 0.4);
+        }
+        
+        /* Enhanced Header Styles */
+        .main-header {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a2d4d 100%);
+            color: var(--white);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: slideDown 0.5s ease;
+            border-bottom: 2px solid rgba(0, 166, 118, 0.3);
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--white);
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo i {
+            color: var(--emerald);
+            animation: pulse 2s infinite;
+            font-size: 1.8rem;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--emerald), var(--white));
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--emerald);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .clock-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .clock-container:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .time {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: var(--emerald);
+        }
+        
+        .date {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a2d4d 100%);
+            color: var(--white);
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><polygon fill="%2300A676" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--white), var(--emerald));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+        
+        /* Enhanced Currency Selector */
+        .currency-section {
+            background: linear-gradient(135deg, var(--light-emerald), #e8f4f1);
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .currency-selector-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 166, 118, 0.2);
+            transition: all 0.3s ease;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .currency-selector-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .currency-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--emerald), #008c63);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 166, 118, 0.3);
+        }
+        
+        .currency-info {
+            flex: 1;
+        }
+        
+        .currency-info h3 {
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+            color: var(--navy);
+        }
+        
+        .currency-info p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        .currency-dropdown {
+            position: relative;
+            min-width: 200px;
+        }
+        
+        .currency-dropdown select {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: var(--white);
+            color: var(--navy);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .currency-dropdown select:focus {
+            border-color: var(--emerald);
+            box-shadow: 0 0 0 3px rgba(0, 166, 118, 0.1);
+            outline: none;
+        }
+        
+        .dropdown-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--emerald);
+            transition: transform 0.3s ease;
+        }
+        
+        .currency-dropdown:hover .dropdown-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        /* Currency Converter Tool */
+        .converter-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid var(--emerald);
+        }
+        
+        .converter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 166, 118, 0.03) 0%, rgba(10, 26, 58, 0.03) 100%);
+            z-index: 0;
+        }
+        
+        .converter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .converter-title {
+            color: var(--emerald);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .converter-title i {
+            font-size: 1.3rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-3px);
+            }
+        }
+        
+        .converter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .converter-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .converter-input-group {
+            flex: 1;
+        }
+        
+        .converter-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--navy);
+        }
+        
+        .converter-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--white);
+            color: var(--navy);
+            transition: all 0.3s ease;
+        }
+        
+        .converter-input:focus {
+            border-color: var(--emerald);
+            box-shadow: 0 0 0 3px rgba(0, 166, 118, 0.1);
+            outline: none;
+        }
+        
+        .converter-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--white);
+            color: var(--navy);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .converter-select:focus {
+            border-color: var(--emerald);
+            box-shadow: 0 0 0 3px rgba(0, 166, 118, 0.1);
+            outline: none;
+        }
+        
+        .swap-button {
+            background: var(--emerald);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+        }
+        
+        .swap-button:hover {
+            background: #008c63;
+            transform: rotate(180deg);
+        }
+        
+        .converter-result {
+            background: linear-gradient(135deg, var(--light-gray), #e8f4f1);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--emerald);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .result-info {
+            text-align: center;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Calculator Section Styles */
+        .calculator-section {
+            background-color: var(--light-gray);
+            position: relative;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .calculator-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid var(--emerald);
+        }
+        
+        .calculator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 166, 118, 0.03) 0%, rgba(10, 26, 58, 0.03) 100%);
+            z-index: 0;
+        }
+        
+        .calculator-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .calculator-title {
+            color: var(--emerald);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .input-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        input[type="number"], input[type="range"] {
+            width: 100%;
+        }
+        
+        input[type="number"] {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--white);
+            color: var(--navy);
+            transition: all 0.3s ease;
+        }
+        
+        input[type="number"]:focus {
+            border-color: var(--emerald);
+            box-shadow: 0 0 0 3px rgba(0, 166, 118, 0.1);
+            outline: none;
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--emerald);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .unit-toggle {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .unit-toggle button {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .unit-toggle button.active {
+            background: var(--emerald);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .results {
+            background: linear-gradient(135deg, var(--light-gray), #e8f4f1);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .result-label {
+            font-weight: 500;
+        }
+        
+        .result-value {
+            font-weight: 700;
+            color: var(--emerald);
+            font-size: 1.1rem;
+        }
+        
+        .chart-container {
+            margin-top: 30px;
+            height: 250px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Benefits Section */
+        .benefits-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .benefit-card {
+            text-align: center;
+            padding: 40px 25px;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--emerald), var(--navy));
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--emerald), #008c63);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--white);
+            font-size: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 166, 118, 0.3);
+            transition: all 0.4s ease;
+        }
+        
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a2d4d 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 60px 0;
+        }
+        
+        .contact-section h2 {
+            color: var(--white);
+        }
+        
+        .contact-section h2::after {
+            background: linear-gradient(90deg, var(--emerald), var(--white));
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .contact-email {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--white);
+        }
+        
+        .contact-email:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* SEO Content */
+        .seo-content {
+            background-color: var(--light-gray);
+            position: relative;
+        }
+        
+        .seo-content h2 {
+            text-align: left;
+        }
+        
+        .seo-content h2::after {
+            left: 0;
+            transform: none;
+        }
+        
+        .faq-list {
+            margin-top: 30px;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: var(--emerald);
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            color: var(--emerald);
+        }
+        
+        .faq-question i {
+            color: var(--emerald);
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(90deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a2d4d 100%);
+            color: var(--white);
+            padding: 60px 0 20px;
+            position: relative;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--emerald);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--emerald);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: var(--emerald);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--emerald);
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .disclaimer {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        /* AdSense Placeholders */
+        .ad-banner {
+            background: linear-gradient(135deg, var(--light-gray), #e8f4f1);
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px 0;
+            border-radius: 10px;
+            color: var(--dark-gray);
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .ad-banner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Animation for elements on scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* New Animations */
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px rgba(0, 166, 118, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(0, 166, 118, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(0, 166, 118, 0.5);
+            }
+        }
+        
+        .glowing {
+            animation: glow 2s infinite;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 3.8rem;
+            }
+            
+            .calculator-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            
+            .calculator-card {
+                margin-bottom: 0;
+            }
+            
+            .converter-row {
+                flex-direction: row;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            .header-right {
+                order: 2;
+            }
+            
+            .clock-container {
+                padding: 8px 15px;
+            }
+            
+            .time {
+                font-size: 1rem;
+            }
+            
+            .date {
+                font-size: 0.7rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+            }
+            
+            .currency-selector-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .currency-dropdown {
+                width: 100%;
+            }
+            
+            .converter-row {
+                flex-direction: column;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .input-row {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Header Section -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>SmartMoneyToolz</span>
+                </a>
+                
+                <nav class="nav-links">
+                    <a href="#"><i class="fas fa-home"></i> Home</a>
+                    <a href="#calculators"><i class="fas fa-calculator"></i> Calculators</a>
+                    <a href="#benefits"><i class="fas fa-star"></i> Benefits</a>
+                    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+                    <a href="#seo-content"><i class="fas fa-book"></i> Learn</a>
+                </nav>
+                
+                <div class="header-right">
+                    <div class="clock-container">
+                        <div class="time" id="current-time">12:00:00</div>
+                        <div class="date" id="current-date">Monday, Jan 1, 2023</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="header">
+        <div class="floating-elements">
+            <div class="floating-element" style="width: 40px; height: 40px; top: 10%; left: 10%;"></div>
+            <div class="floating-element" style="width: 60px; height: 60px; top: 20%; left: 80%;"></div>
+            <div class="floating-element" style="width: 30px; height: 30px; top: 70%; left: 15%;"></div>
+            <div class="floating-element" style="width: 50px; height: 50px; top: 60%; left: 70%;"></div>
+            <div class="floating-element" style="width: 35px; height: 35px; top: 30%; left: 40%;"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Plan Smarter. Invest Better.</h1>
+                <p>Free online finance calculators for confident money decisions. Calculate EMI, SIP returns, FD maturity, and interest instantly.</p>
+                <a href="#calculators" class="btn glowing">Start Calculating Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- AdSense Banner (Top) -->
+    <div class="container">
+        <div class="ad-banner">AdSense Banner - Top</div>
+    </div>
+
+    <!-- Enhanced Currency Selector Section -->
+    <section class="currency-section">
+        <div class="container">
+            <div class="currency-selector-container animate-on-scroll">
+                <div class="currency-icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <div class="currency-info">
+                    <h3>Select Your Currency</h3>
+                    <p>Choose your preferred currency for all calculations</p>
+                </div>
+                <div class="currency-dropdown">
+                    <select id="currency-select">
+                        <option value="INR">Indian Rupee (₹)</option>
+                        <option value="USD">US Dollar ($)</option>
+                        <option value="EUR">Euro (€)</option>
+                        <option value="GBP">British Pound (£)</option>
+                        <option value="JPY">Japanese Yen (¥)</option>
+                        <option value="AUD">Australian Dollar (A$)</option>
+                        <option value="CAD">Canadian Dollar (C$)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (¥)</option>
+                        <option value="RUB">Russian Ruble (₽)</option>
+                        <option value="AED">UAE Dirham (د.إ)</option>
+                        <option value="SAR">Saudi Riyal (﷼)</option>
+                        <option value="SGD">Singapore Dollar (S$)</option>
+                    </select>
+                    <div class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculators Section -->
+    <section id="calculators" class="calculator-section">
+        <div class="container">
+            <h2 class="animate-on-scroll">Financial Calculators</h2>
+            
+            <!-- Currency Converter Tool -->
+            <div class="converter-card animate-on-scroll" id="currency-converter">
+                <h3 class="converter-title">
+                    <i class="fas fa-exchange-alt"></i>
+                    Currency Converter
+                </h3>
+                <div class="converter-form">
+                    <div class="converter-row">
+                        <div class="converter-input-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" class="converter-input" placeholder="Enter amount" value="1" min="0" step="0.01">
+                        </div>
+                        <div class="converter-input-group">
+                            <label for="from-currency">From Currency</label>
+                            <select id="from-currency" class="converter-select">
+                                <option value="USD">US Dollar (USD)</option>
+                                <option value="EUR">Euro (EUR)</option>
+                                <option value="GBP">British Pound (GBP)</option>
+                                <option value="JPY">Japanese Yen (JPY)</option>
+                                <option value="INR" selected>Indian Rupee (INR)</option>
+                                <option value="AUD">Australian Dollar (AUD)</option>
+                                <option value="CAD">Canadian Dollar (CAD)</option>
+                                <option value="CHF">Swiss Franc (CHF)</option>
+                                <option value="CNY">Chinese Yuan (CNY)</option>
+                                <option value="RUB">Russian Ruble (RUB)</option>
+                                <option value="AED">UAE Dirham (AED)</option>
+                                <option value="SAR">Saudi Riyal (SAR)</option>
+                                <option value="SGD">Singapore Dollar (SGD)</option>
+                                <option value="NZD">New Zealand Dollar (NZD)</option>
+                                <option value="MXN">Mexican Peso (MXN)</option>
+                                <option value="BRL">Brazilian Real (BRL)</option>
+                                <option value="ZAR">South African Rand (ZAR)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="converter-row">
+                        <div class="converter-input-group">
+                            <button class="swap-button" id="swap-currencies">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="converter-row">
+                        <div class="converter-input-group">
+                            <label for="to-currency">To Currency</label>
+                            <select id="to-currency" class="converter-select">
+                                <option value="USD" selected>US Dollar (USD)</option>
+                                <option value="EUR">Euro (EUR)</option>
+                                <option value="GBP">British Pound (GBP)</option>
+                                <option value="JPY">Japanese Yen (JPY)</option>
+                                <option value="INR">Indian Rupee (INR)</option>
+                                <option value="AUD">Australian Dollar (AUD)</option>
+                                <option value="CAD">Canadian Dollar (CAD)</option>
+                                <option value="CHF">Swiss Franc (CHF)</option>
+                                <option value="CNY">Chinese Yuan (CNY)</option>
+                                <option value="RUB">Russian Ruble (RUB)</option>
+                                <option value="AED">UAE Dirham (AED)</option>
+                                <option value="SAR">Saudi Riyal (SAR)</option>
+                                <option value="SGD">Singapore Dollar (SGD)</option>
+                                <option value="NZD">New Zealand Dollar (NZD)</option>
+                                <option value="MXN">Mexican Peso (MXN)</option>
+                                <option value="BRL">Brazilian Real (BRL)</option>
+                                <option value="ZAR">South African Rand (ZAR)</option>
+                            </select>
+                        </div>
+                        <div class="converter-input-group">
+                            <label for="converted-amount">Converted Amount</label>
+                            <input type="text" id="converted-amount" class="converter-input" placeholder="Result will appear here" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="converter-result" id="conversion-result">
+                        <div class="result-value" id="result-value">1 INR = 0.012 USD</div>
+                        <div class="result-info" id="result-info">Exchange rates are for demonstration purposes only</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calculator-grid">
+                <!-- EMI Calculator -->
+                <div class="calculator-card animate-on-scroll" id="emi-calculator">
+                    <h3 class="calculator-title">
+                        <i class="fas fa-calculator"></i>
+                        Loan EMI Calculator
+                    </h3>
+                    <div class="input-group">
+                        <label for="loan-amount">Loan Amount (<span class="currency-symbol">₹</span>)</label>
+                        <div class="input-row">
+                            <input type="range" id="loan-amount-slider" min="10000" max="5000000" step="10000" value="500000">
+                            <input type="number" id="loan-amount" min="10000" max="5000000" value="500000">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="interest-rate">Interest Rate (%)</label>
+                        <div class="input-row">
+                            <input type="range" id="interest-rate-slider" min="1" max="20" step="0.1" value="8.5">
+                            <input type="number" id="interest-rate" min="1" max="20" step="0.1" value="8.5">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="loan-tenure">Loan Tenure</label>
+                        <div class="unit-toggle">
+                            <button id="months-toggle" class="active">Months</button>
+                            <button id="years-toggle">Years</button>
+                        </div>
+                        <div class="input-row">
+                            <input type="range" id="loan-tenure-slider" min="6" max="360" value="60">
+                            <input type="number" id="loan-tenure" min="6" max="360" value="60">
+                        </div>
+                    </div>
+                    
+                    <div class="results">
+                        <div class="result-item">
+                            <span class="result-label">Monthly EMI</span>
+                            <span class="result-value" id="emi-result"><span class="currency-symbol">₹</span>10,280</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Interest</span>
+                            <span class="result-value" id="total-interest"><span class="currency-symbol">₹</span>1,16,800</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Payment</span>
+                            <span class="result-value" id="total-payment"><span class="currency-symbol">₹</span>6,16,800</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="emi-chart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- SIP Calculator -->
+                <div class="calculator-card animate-on-scroll" id="sip-calculator">
+                    <h3 class="calculator-title">
+                        <i class="fas fa-chart-line"></i>
+                        SIP Calculator
+                    </h3>
+                    <div class="input-group">
+                        <label for="monthly-investment">Monthly Investment (<span class="currency-symbol">₹</span>)</label>
+                        <div class="input-row">
+                            <input type="range" id="monthly-investment-slider" min="500" max="100000" step="500" value="5000">
+                            <input type="number" id="monthly-investment" min="500" max="100000" value="5000">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="sip-return-rate">Expected Annual Return (%)</label>
+                        <div class="input-row">
+                            <input type="range" id="sip-return-rate-slider" min="1" max="30" step="0.1" value="12">
+                            <input type="number" id="sip-return-rate" min="1" max="30" step="0.1" value="12">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="investment-duration">Investment Duration (Years)</label>
+                        <div class="input-row">
+                            <input type="range" id="investment-duration-slider" min="1" max="30" value="10">
+                            <input type="number" id="investment-duration" min="1" max="30" value="10">
+                        </div>
+                    </div>
+                    
+                    <div class="results">
+                        <div class="result-item">
+                            <span class="result-label">Total Invested</span>
+                            <span class="result-value" id="total-invested"><span class="currency-symbol">₹</span>6,00,000</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Estimated Returns</span>
+                            <span class="result-value" id="estimated-returns"><span class="currency-symbol">₹</span>4,86,000</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Value</span>
+                            <span class="result-value" id="total-value"><span class="currency-symbol">₹</span>10,86,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="sip-chart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- FD Calculator -->
+                <div class="calculator-card animate-on-scroll" id="fd-calculator">
+                    <h3 class="calculator-title">
+                        <i class="fas fa-piggy-bank"></i>
+                        FD Calculator
+                    </h3>
+                    <div class="input-group">
+                        <label for="principal-amount">Principal Amount (<span class="currency-symbol">₹</span>)</label>
+                        <div class="input-row">
+                            <input type="range" id="principal-amount-slider" min="1000" max="10000000" step="1000" value="100000">
+                            <input type="number" id="principal-amount" min="1000" max="10000000" value="100000">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="fd-interest-rate">Interest Rate (%)</label>
+                        <div class="input-row">
+                            <input type="range" id="fd-interest-rate-slider" min="1" max="15" step="0.1" value="6.5">
+                            <input type="number" id="fd-interest-rate" min="1" max="15" step="0.1" value="6.5">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="fd-tenure">Time Period (Years)</label>
+                        <div class="input-row">
+                            <input type="range" id="fd-tenure-slider" min="1" max="10" step="0.5" value="5">
+                            <input type="number" id="fd-tenure" min="1" max="10" step="0.5" value="5">
+                        </div>
+                    </div>
+                    
+                    <div class="results">
+                        <div class="result-item">
+                            <span class="result-label">Maturity Amount</span>
+                            <span class="result-value" id="maturity-amount"><span class="currency-symbol">₹</span>1,37,689</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Interest Earned</span>
+                            <span class="result-value" id="interest-earned"><span class="currency-symbol">₹</span>37,689</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interest Calculator -->
+                <div class="calculator-card animate-on-scroll" id="interest-calculator">
+                    <h3 class="calculator-title">
+                        <i class="fas fa-percentage"></i>
+                        Simple & Compound Interest Calculator
+                    </h3>
+                    <div class="input-group">
+                        <label>Interest Type</label>
+                        <div class="unit-toggle">
+                            <button id="simple-interest-toggle" class="active">Simple Interest</button>
+                            <button id="compound-interest-toggle">Compound Interest</button>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="interest-principal">Principal Amount (<span class="currency-symbol">₹</span>)</label>
+                        <div class="input-row">
+                            <input type="range" id="interest-principal-slider" min="1000" max="1000000" step="1000" value="50000">
+                            <input type="number" id="interest-principal" min="1000" max="1000000" value="50000">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="interest-rate-calc">Interest Rate (%)</label>
+                        <div class="input-row">
+                            <input type="range" id="interest-rate-calc-slider" min="1" max="20" step="0.1" value="8">
+                            <input type="number" id="interest-rate-calc" min="1" max="20" step="0.1" value="8">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="interest-time">Time Period (Years)</label>
+                        <div class="input-row">
+                            <input type="range" id="interest-time-slider" min="1" max="20" value="5">
+                            <input type="number" id="interest-time" min="1" max="20" value="5">
+                        </div>
+                    </div>
+                    
+                    <div class="results">
+                        <div class="result-item">
+                            <span class="result-label">Total Interest</span>
+                            <span class="result-value" id="total-interest-calc"><span class="currency-symbol">₹</span>20,000</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Amount</span>
+                            <span class="result-value" id="total-amount-calc"><span class="currency-symbol">₹</span>70,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AdSense Banner (Middle) -->
+    <div class="container">
+        <div class="ad-banner">AdSense Banner - Middle</div>
+    </div>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits-section">
+        <div class="container">
+            <h2 class="animate-on-scroll">Why Choose SmartMoneyToolz</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card animate-on-scroll">
+                    <div class="benefit-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>100% Free Tools</h3>
+                    <p>All our financial calculators are completely free to use with no hidden charges.</p>
+                </div>
+                <div class="benefit-card animate-on-scroll">
+                    <div class="benefit-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>No Login Required</h3>
+                    <p>Access all calculators instantly without creating an account or sharing personal details.</p>
+                </div>
+                <div class="benefit-card animate-on-scroll">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Trusted Calculations</h3>
+                    <p>Our tools use standard financial formulas to ensure accurate results every time.</p>
+                </div>
+                <div class="benefit-card animate-on-scroll">
+                    <div class="benefit-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Works on Any Device</h3>
+                    <p>Use our calculators seamlessly on desktop, tablet, or mobile devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="animate-on-scroll">Get In Touch</h2>
+            <p class="animate-on-scroll">Have questions or feedback? We'd love to hear from you!</p>
+            <div class="contact-info animate-on-scroll">
+                <a href="mailto:smartmoneytoolz@gmail.com" class="contact-email">
+                    <i class="fas fa-envelope"></i>
+                    smartmoneytoolz@gmail.com
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO Content Section -->
+    <section class="seo-content" id="seo-content">
+        <div class="container">
+            <h2 class="animate-on-scroll">Make Smarter Money Transfers & Investments</h2>
+            <p class="animate-on-scroll">SmartMoneyToolz provides you with accurate financial calculations to help you make informed decisions about loans, investments, and savings. Whether you're planning to take a home loan, start a SIP, or invest in fixed deposits, our calculators give you the insights you need.</p>
+            
+            <p class="animate-on-scroll">Understanding your EMI (Equated Monthly Installment) helps you budget effectively and choose a loan that fits your financial situation. Our EMI calculator breaks down your monthly payment into principal and interest components, showing you exactly how much you'll pay over the loan tenure.</p>
+            
+            <p class="animate-on-scroll">SIP (Systematic Investment Plan) is one of the most effective ways to build wealth through mutual funds. Our SIP calculator demonstrates the power of compounding and regular investing, helping you visualize how small, consistent investments can grow into significant amounts over time.</p>
+            
+            <div class="faq-list">
+                <h3 class="animate-on-scroll">Frequently Asked Questions</h3>
+                
+                <div class="faq-item animate-on-scroll">
+                    <div class="faq-question">
+                        <i class="fas fa-chevron-right"></i>
+                        How is EMI calculated?
+                    </div>
+                    <div class="faq-answer">
+                        <p>EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the loan amount, r is the monthly interest rate, and n is the loan tenure in months.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate-on-scroll">
+                    <div class="faq-question">
+                        <i class="fas fa-chevron-right"></i>
+                        What is the benefit of a SIP over lump sum investment?
+                    </div>
+                    <div class="faq-answer">
+                        <p>SIP allows you to invest regularly regardless of market conditions, benefiting from rupee cost averaging. This reduces the impact of market volatility on your investments.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate-on-scroll">
+                    <div class="faq-question">
+                        <i class="fas fa-chevron-right"></i>
+                        How does compound interest work?
+                    </div>
+                    <div class="faq-answer">
+                        <p>Compound interest is calculated on the initial principal and also on the accumulated interest from previous periods. This means you earn interest on your interest, leading to exponential growth over time.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item animate-on-scroll">
+                    <div class="faq-question">
+                        <i class="fas fa-chevron-right"></i>
+                        Are the calculations from these tools accurate?
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our calculators use standard financial formulas and provide accurate results. However, actual bank calculations may vary slightly based on their specific policies and rounding methods.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AdSense Banner (Bottom) -->
+    <div class="container">
+        <div class="ad-banner">AdSense Banner - Bottom</div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SmartMoneyToolz</h3>
+                    <p>Your trusted partner for financial planning and investment decisions.</p>
+                    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:smartmoneytoolz@gmail.com">smartmoneytoolz@gmail.com</a></p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#calculators"><i class="fas fa-calculator"></i> Calculators</a></li>
+                        <li><a href="#benefits"><i class="fas fa-star"></i> Benefits</a></li>
+                        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                        <li><a href="#seo-content"><i class="fas fa-book"></i> Learn</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Use</a></li>
+                        <li><a href="#"><i class="fas fa-cookie"></i> Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get financial tips and updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 5px; border: none;">
+                        <button type="submit" class="btn" style="width: 100%;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="disclaimer">
+                    All calculations are based on standard formulas. Please verify with your bank before making financial decisions.
+                </div>
+                <div>Copyright © 2023 SmartMoneyToolz. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Currency Data
+        const currencyData = {
+            'INR': { symbol: '₹', name: 'Indian Rupee' },
+            'USD': { symbol: '$', name: 'US Dollar' },
+            'EUR': { symbol: '€', name: 'Euro' },
+            'GBP': { symbol: '£', name: 'British Pound' },
+            'JPY': { symbol: '¥', name: 'Japanese Yen' },
+            'AUD': { symbol: 'A$', name: 'Australian Dollar' },
+            'CAD': { symbol: 'C$', name: 'Canadian Dollar' },
+            'CHF': { symbol: 'CHF', name: 'Swiss Franc' },
+            'CNY': { symbol: '¥', name: 'Chinese Yuan' },
+            'RUB': { symbol: '₽', name: 'Russian Ruble' },
+            'AED': { symbol: 'د.إ', name: 'UAE Dirham' },
+            'SAR': { symbol: '﷼', name: 'Saudi Riyal' },
+            'SGD': { symbol: 'S$', name: 'Singapore Dollar' }
+        };
+
+        // Exchange rates (for demonstration purposes - in a real app, you would fetch these from an API)
+        const exchangeRates = {
+            'USD': { 
+                'EUR': 0.85, 'GBP': 0.73, 'JPY': 110.25, 'INR': 74.50, 'AUD': 1.35, 
+                'CAD': 1.25, 'CHF': 0.92, 'CNY': 6.45, 'RUB': 73.80, 'AED': 3.67, 
+                'SAR': 3.75, 'SGD': 1.34, 'NZD': 1.42, 'MXN': 20.15, 'BRL': 5.25, 'ZAR': 14.75
+            },
+            'EUR': { 
+                'USD': 1.18, 'GBP': 0.86, 'JPY': 129.75, 'INR': 87.65, 'AUD': 1.59, 
+                'CAD': 1.47, 'CHF': 1.08, 'CNY': 7.59, 'RUB': 86.85, 'AED': 4.32, 
+                'SAR': 4.41, 'SGD': 1.58, 'NZD': 1.67, 'MXN': 23.72, 'BRL': 6.18, 'ZAR': 17.35
+            },
+            'GBP': { 
+                'USD': 1.37, 'EUR': 1.16, 'JPY': 151.25, 'INR': 102.15, 'AUD': 1.85, 
+                'CAD': 1.71, 'CHF': 1.26, 'CNY': 8.85, 'RUB': 101.25, 'AED': 5.03, 
+                'SAR': 5.14, 'SGD': 1.84, 'NZD': 1.95, 'MXN': 27.65, 'BRL': 7.20, 'ZAR': 20.20
+            },
+            'JPY': { 
+                'USD': 0.0091, 'EUR': 0.0077, 'GBP': 0.0066, 'INR': 0.68, 'AUD': 0.0123, 
+                'CAD': 0.0114, 'CHF': 0.0084, 'CNY': 0.0585, 'RUB': 0.67, 'AED': 0.0333, 
+                'SAR': 0.0340, 'SGD': 0.0122, 'NZD': 0.0129, 'MXN': 0.183, 'BRL': 0.0476, 'ZAR': 0.134
+            },
+            'INR': { 
+                'USD': 0.0134, 'EUR': 0.0114, 'GBP': 0.0098, 'JPY': 1.47, 'AUD': 0.0181, 
+                'CAD': 0.0168, 'CHF': 0.0124, 'CNY': 0.0865, 'RUB': 0.99, 'AED': 0.0492, 
+                'SAR': 0.0503, 'SGD': 0.0180, 'NZD': 0.0190, 'MXN': 0.270, 'BRL': 0.0704, 'ZAR': 0.198
+            }
+        };
+
+        // Real-time Clock
+        function updateClock() {
+            const now = new Date();
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            
+            document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', timeOptions);
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', dateOptions);
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Scroll Animation
+        function checkScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('load', checkScroll);
+        
+        // Currency Change Handler
+        document.getElementById('currency-select').addEventListener('change', function() {
+            const selectedCurrency = this.value;
+            const currencySymbol = currencyData[selectedCurrency].symbol;
+            
+            // Update all currency symbols on the page
+            document.querySelectorAll('.currency-symbol').forEach(element => {
+                element.textContent = currencySymbol;
+            });
+            
+            // Recalculate all calculators with new currency
+            calculateEMI();
+            calculateSIP();
+            calculateFD();
+            calculateInterest();
+        });
+        
+        // Currency Converter Logic
+        const amountInput = document.getElementById('amount');
+        const fromCurrencySelect = document.getElementById('from-currency');
+        const toCurrencySelect = document.getElementById('to-currency');
+        const convertedAmountInput = document.getElementById('converted-amount');
+        const swapButton = document.getElementById('swap-currencies');
+        const resultValue = document.getElementById('result-value');
+        const resultInfo = document.getElementById('result-info');
+        
+        // Function to convert currency
+        function convertCurrency() {
+            const amount = parseFloat(amountInput.value);
+            const fromCurrency = fromCurrencySelect.value;
+            const toCurrency = toCurrencySelect.value;
+            
+            if (isNaN(amount) || amount <= 0) {
+                convertedAmountInput.value = '';
+                resultValue.textContent = 'Please enter a valid amount';
+                resultInfo.textContent = '';
+                return;
+            }
+            
+            // For demonstration, we'll use fixed exchange rates
+            // In a real application, you would fetch these from an API
+            let rate = 1;
+            
+            if (fromCurrency === toCurrency) {
+                rate = 1;
+            } else if (exchangeRates[fromCurrency] && exchangeRates[fromCurrency][toCurrency]) {
+                rate = exchangeRates[fromCurrency][toCurrency];
+            } else if (exchangeRates[toCurrency] && exchangeRates[toCurrency][fromCurrency]) {
+                rate = 1 / exchangeRates[toCurrency][fromCurrency];
+            } else {
+                // Fallback rate (approximate)
+                rate = getApproximateRate(fromCurrency, toCurrency);
+            }
+            
+            const convertedAmount = amount * rate;
+            
+            // Format the numbers
+            const formattedAmount = formatCurrency(amount, fromCurrency);
+            const formattedConvertedAmount = formatCurrency(convertedAmount, toCurrency);
+            const formattedRate = formatCurrency(rate, toCurrency, 4);
+            
+            // Update the UI
+            convertedAmountInput.value = formattedConvertedAmount;
+            resultValue.textContent = `${formattedAmount} = ${formattedConvertedAmount}`;
+            resultInfo.textContent = `1 ${fromCurrency} = ${formattedRate} ${toCurrency}`;
+        }
+        
+        // Helper function to format currency
+        function formatCurrency(amount, currency, decimals = 2) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: currency,
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            }).format(amount);
+        }
+        
+        // Helper function to get approximate exchange rate
+        function getApproximateRate(fromCurrency, toCurrency) {
+            // This is a simplified approach - in a real app you would use an API
+            const baseRates = {
+                'USD': 1,
+                'EUR': 0.85,
+                'GBP': 0.73,
+                'JPY': 110,
+                'INR': 74,
+                'AUD': 1.35,
+                'CAD': 1.25,
+                'CHF': 0.92,
+                'CNY': 6.45,
+                'RUB': 74,
+                'AED': 3.67,
+                'SAR': 3.75,
+                'SGD': 1.34,
+                'NZD': 1.42,
+                'MXN': 20,
+                'BRL': 5.25,
+                'ZAR': 14.75
+            };
+            
+            if (baseRates[fromCurrency] && baseRates[toCurrency]) {
+                return baseRates[toCurrency] / baseRates[fromCurrency];
+            }
+            
+            return 1; // Fallback
+        }
+        
+        // Event listeners for currency converter
+        amountInput.addEventListener('input', convertCurrency);
+        fromCurrencySelect.addEventListener('change', convertCurrency);
+        toCurrencySelect.addEventListener('change', convertCurrency);
+        
+        // Swap currencies
+        swapButton.addEventListener('click', function() {
+            const fromValue = fromCurrencySelect.value;
+            const toValue = toCurrencySelect.value;
+            
+            fromCurrencySelect.value = toValue;
+            toCurrencySelect.value = fromValue;
+            
+            convertCurrency();
+        });
+        
+        // Initialize currency converter
+        convertCurrency();
+        
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            const emiCtx = document.getElementById('emi-chart').getContext('2d');
+            const sipCtx = document.getElementById('sip-chart').getContext('2d');
+            
+            const emiChart = new Chart(emiCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Principal', 'Interest'],
+                    datasets: [{
+                        data: [500000, 116800],
+                        backgroundColor: ['#00A676', '#0A1A3A'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            const sipChart = new Chart(sipCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10'],
+                    datasets: [{
+                        label: 'Investment Growth',
+                        data: [60000, 126000, 198000, 276000, 360000, 450000, 546000, 648000, 756000, 870000],
+                        borderColor: '#00A676',
+                        backgroundColor: 'rgba(0, 166, 118, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // EMI Calculator Logic
+            const loanAmountSlider = document.getElementById('loan-amount-slider');
+            const loanAmountInput = document.getElementById('loan-amount');
+            const interestRateSlider = document.getElementById('interest-rate-slider');
+            const interestRateInput = document.getElementById('interest-rate');
+            const loanTenureSlider = document.getElementById('loan-tenure-slider');
+            const loanTenureInput = document.getElementById('loan-tenure');
+            const monthsToggle = document.getElementById('months-toggle');
+            const yearsToggle = document.getElementById('years-toggle');
+            
+            let isTenureInMonths = true;
+            
+            // Sync sliders and inputs
+            loanAmountSlider.addEventListener('input', function() {
+                loanAmountInput.value = this.value;
+                calculateEMI();
+            });
+            
+            loanAmountInput.addEventListener('input', function() {
+                loanAmountSlider.value = this.value;
+                calculateEMI();
+            });
+            
+            interestRateSlider.addEventListener('input', function() {
+                interestRateInput.value = this.value;
+                calculateEMI();
+            });
+            
+            interestRateInput.addEventListener('input', function() {
+                interestRateSlider.value = this.value;
+                calculateEMI();
+            });
+            
+            loanTenureSlider.addEventListener('input', function() {
+                loanTenureInput.value = this.value;
+                calculateEMI();
+            });
+            
+            loanTenureInput.addEventListener('input', function() {
+                loanTenureSlider.value = this.value;
+                calculateEMI();
+            });
+            
+            monthsToggle.addEventListener('click', function() {
+                if (!isTenureInMonths) {
+                    isTenureInMonths = true;
+                    monthsToggle.classList.add('active');
+                    yearsToggle.classList.remove('active');
+                    loanTenureSlider.min = 6;
+                    loanTenureSlider.max = 360;
+                    loanTenureInput.min = 6;
+                    loanTenureInput.max = 360;
+                    loanTenureSlider.value = 60;
+                    loanTenureInput.value = 60;
+                    calculateEMI();
+                }
+            });
+            
+            yearsToggle.addEventListener('click', function() {
+                if (isTenureInMonths) {
+                    isTenureInMonths = false;
+                    yearsToggle.classList.add('active');
+                    monthsToggle.classList.remove('active');
+                    loanTenureSlider.min = 0.5;
+                    loanTenureSlider.max = 30;
+                    loanTenureInput.min = 0.5;
+                    loanTenureInput.max = 30;
+                    loanTenureSlider.value = 5;
+                    loanTenureInput.value = 5;
+                    calculateEMI();
+                }
+            });
+            
+            function calculateEMI() {
+                const principal = parseFloat(loanAmountInput.value);
+                const rate = parseFloat(interestRateInput.value) / 100 / 12; // Monthly interest rate
+                let time = parseFloat(loanTenureInput.value);
+                
+                // Convert to months if in years
+                if (!isTenureInMonths) {
+                    time = time * 12;
+                }
+                
+                // EMI formula: P * r * (1+r)^n / ((1+r)^n - 1)
+                const emi = principal * rate * Math.pow(1 + rate, time) / (Math.pow(1 + rate, time) - 1);
+                const totalPayment = emi * time;
+                const totalInterest = totalPayment - principal;
+                
+                // Get current currency symbol
+                const currencySymbol = document.querySelector('.currency-symbol').textContent;
+                
+                // Update results
+                document.getElementById('emi-result').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + emi.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('total-interest').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + totalInterest.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('total-payment').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + totalPayment.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                
+                // Update chart
+                emiChart.data.datasets[0].data = [principal, totalInterest];
+                emiChart.update();
+            }
+            
+            // SIP Calculator Logic
+            const monthlyInvestmentSlider = document.getElementById('monthly-investment-slider');
+            const monthlyInvestmentInput = document.getElementById('monthly-investment');
+            const sipReturnRateSlider = document.getElementById('sip-return-rate-slider');
+            const sipReturnRateInput = document.getElementById('sip-return-rate');
+            const investmentDurationSlider = document.getElementById('investment-duration-slider');
+            const investmentDurationInput = document.getElementById('investment-duration');
+            
+            monthlyInvestmentSlider.addEventListener('input', function() {
+                monthlyInvestmentInput.value = this.value;
+                calculateSIP();
+            });
+            
+            monthlyInvestmentInput.addEventListener('input', function() {
+                monthlyInvestmentSlider.value = this.value;
+                calculateSIP();
+            });
+            
+            sipReturnRateSlider.addEventListener('input', function() {
+                sipReturnRateInput.value = this.value;
+                calculateSIP();
+            });
+            
+            sipReturnRateInput.addEventListener('input', function() {
+                sipReturnRateSlider.value = this.value;
+                calculateSIP();
+            });
+            
+            investmentDurationSlider.addEventListener('input', function() {
+                investmentDurationInput.value = this.value;
+                calculateSIP();
+            });
+            
+            investmentDurationInput.addEventListener('input', function() {
+                investmentDurationSlider.value = this.value;
+                calculateSIP();
+            });
+            
+            function calculateSIP() {
+                const monthlyInvestment = parseFloat(monthlyInvestmentInput.value);
+                const annualReturn = parseFloat(sipReturnRateInput.value) / 100;
+                const years = parseFloat(investmentDurationInput.value);
+                
+                const monthlyRate = annualReturn / 12;
+                const months = years * 12;
+                
+                // Future value of SIP formula: P * ((1+r)^n - 1) / r * (1+r)
+                const futureValue = monthlyInvestment * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+                const totalInvested = monthlyInvestment * months;
+                const wealthGained = futureValue - totalInvested;
+                
+                // Get current currency symbol
+                const currencySymbol = document.querySelector('.currency-symbol').textContent;
+                
+                // Update results
+                document.getElementById('total-invested').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + totalInvested.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('estimated-returns').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + wealthGained.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('total-value').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + futureValue.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                
+                // Update chart data
+                const chartData = [];
+                for (let i = 1; i <= years; i++) {
+                    const yearMonths = i * 12;
+                    const yearValue = monthlyInvestment * ((Math.pow(1 + monthlyRate, yearMonths) - 1) / monthlyRate) * (1 + monthlyRate);
+                    chartData.push(yearValue.toFixed(0));
+                }
+                
+                sipChart.data.labels = Array.from({length: years}, (_, i) => `Year ${i+1}`);
+                sipChart.data.datasets[0].data = chartData;
+                sipChart.update();
+            }
+            
+            // FD Calculator Logic
+            const principalAmountSlider = document.getElementById('principal-amount-slider');
+            const principalAmountInput = document.getElementById('principal-amount');
+            const fdInterestRateSlider = document.getElementById('fd-interest-rate-slider');
+            const fdInterestRateInput = document.getElementById('fd-interest-rate');
+            const fdTenureSlider = document.getElementById('fd-tenure-slider');
+            const fdTenureInput = document.getElementById('fd-tenure');
+            
+            principalAmountSlider.addEventListener('input', function() {
+                principalAmountInput.value = this.value;
+                calculateFD();
+            });
+            
+            principalAmountInput.addEventListener('input', function() {
+                principalAmountSlider.value = this.value;
+                calculateFD();
+            });
+            
+            fdInterestRateSlider.addEventListener('input', function() {
+                fdInterestRateInput.value = this.value;
+                calculateFD();
+            });
+            
+            fdInterestRateInput.addEventListener('input', function() {
+                fdInterestRateSlider.value = this.value;
+                calculateFD();
+            });
+            
+            fdTenureSlider.addEventListener('input', function() {
+                fdTenureInput.value = this.value;
+                calculateFD();
+            });
+            
+            fdTenureInput.addEventListener('input', function() {
+                fdTenureSlider.value = this.value;
+                calculateFD();
+            });
+            
+            function calculateFD() {
+                const principal = parseFloat(principalAmountInput.value);
+                const rate = parseFloat(fdInterestRateInput.value) / 100;
+                const time = parseFloat(fdTenureInput.value);
+                
+                // Compound interest formula for FD: A = P(1 + r/n)^(nt)
+                // Assuming quarterly compounding (n=4)
+                const n = 4;
+                const maturityAmount = principal * Math.pow(1 + rate/n, n * time);
+                const interestEarned = maturityAmount - principal;
+                
+                // Get current currency symbol
+                const currencySymbol = document.querySelector('.currency-symbol').textContent;
+                
+                // Update results
+                document.getElementById('maturity-amount').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + maturityAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('interest-earned').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + interestEarned.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // Interest Calculator Logic
+            const interestPrincipalSlider = document.getElementById('interest-principal-slider');
+            const interestPrincipalInput = document.getElementById('interest-principal');
+            const interestRateCalcSlider = document.getElementById('interest-rate-calc-slider');
+            const interestRateCalcInput = document.getElementById('interest-rate-calc');
+            const interestTimeSlider = document.getElementById('interest-time-slider');
+            const interestTimeInput = document.getElementById('interest-time');
+            const simpleInterestToggle = document.getElementById('simple-interest-toggle');
+            const compoundInterestToggle = document.getElementById('compound-interest-toggle');
+            
+            let isSimpleInterest = true;
+            
+            interestPrincipalSlider.addEventListener('input', function() {
+                interestPrincipalInput.value = this.value;
+                calculateInterest();
+            });
+            
+            interestPrincipalInput.addEventListener('input', function() {
+                interestPrincipalSlider.value = this.value;
+                calculateInterest();
+            });
+            
+            interestRateCalcSlider.addEventListener('input', function() {
+                interestRateCalcInput.value = this.value;
+                calculateInterest();
+            });
+            
+            interestRateCalcInput.addEventListener('input', function() {
+                interestRateCalcSlider.value = this.value;
+                calculateInterest();
+            });
+            
+            interestTimeSlider.addEventListener('input', function() {
+                interestTimeInput.value = this.value;
+                calculateInterest();
+            });
+            
+            interestTimeInput.addEventListener('input', function() {
+                interestTimeSlider.value = this.value;
+                calculateInterest();
+            });
+            
+            simpleInterestToggle.addEventListener('click', function() {
+                if (!isSimpleInterest) {
+                    isSimpleInterest = true;
+                    simpleInterestToggle.classList.add('active');
+                    compoundInterestToggle.classList.remove('active');
+                    calculateInterest();
+                }
+            });
+            
+            compoundInterestToggle.addEventListener('click', function() {
+                if (isSimpleInterest) {
+                    isSimpleInterest = false;
+                    compoundInterestToggle.classList.add('active');
+                    simpleInterestToggle.classList.remove('active');
+                    calculateInterest();
+                }
+            });
+            
+            function calculateInterest() {
+                const principal = parseFloat(interestPrincipalInput.value);
+                const rate = parseFloat(interestRateCalcInput.value) / 100;
+                const time = parseFloat(interestTimeInput.value);
+                
+                let totalInterest, totalAmount;
+                
+                if (isSimpleInterest) {
+                    // Simple Interest formula: I = P * r * t
+                    totalInterest = principal * rate * time;
+                    totalAmount = principal + totalInterest;
+                } else {
+                    // Compound Interest formula: A = P(1 + r)^t
+                    totalAmount = principal * Math.pow(1 + rate, time);
+                    totalInterest = totalAmount - principal;
+                }
+                
+                // Get current currency symbol
+                const currencySymbol = document.querySelector('.currency-symbol').textContent;
+                
+                // Update results
+                document.getElementById('total-interest-calc').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + totalInterest.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('total-amount-calc').innerHTML = `<span class="currency-symbol">${currencySymbol}</span>` + totalAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // Initialize all calculators
+            calculateEMI();
+            calculateSIP();
+            calculateFD();
+            calculateInterest();
+        });
+    </script>
+</body>
+</html>
